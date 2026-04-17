@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body{
+            background:url(pic.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            display: flex;
+            height: 100vh;
+        }
+
+        .form {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            padding: 30px;
+            border-radius: 20px;
+            width: 400px;
+        }
+        h1 {
+            color: #ffffff5b;
+        }
+        input {
+            display: block;
+            width: 100%;
+            height: 40px;
+            font-size: 15px;
+            margin-top: 15px;
+            color: #ffffff;
+            background-color: transparent;
+            border: none;
+            border-bottom: 2px solid #ffffff;
+        }
+        input:focus{
+            border: none;
+            box-shadow: none;
+            outline: none;
+            border-bottom: 2px solid skyblue;
+
+        }
+        input:focus::placeholder{
+            color: #ffffff97;
+        }
+        input::placeholder{
+            color: #ffffff;
+        }
+        p{
+            margin-top: 15px;
+            font-size: 15px;
+            font-weight: 600;
+            color: rgb(6, 255, 6);
+        }
+        button {
+            display: block;
+            margin-top: 15px;
+            width: 100%;
+            height: 35px;
+            border-radius: 12px;
+            border: none;
+            background-color: rgb(30, 101, 225);
+            font-size: 15px;
+            color: #ffffff;
+            font-weight: bolder;
+            cursor: pointer;
+        }
+        #verify{
+            background-color: rgb(0, 172, 0);
+            display: none;
+        }
+        #verify:hover{
+            background-color: rgb(0, 172, 0, 0.8);
+        }
+        #verificationCode {
+            display: none;
+            text-align: center;
+        }
+        .login:hover{
+            background-color: rgba(30, 101, 225, 0.8);
+        }
+        #loggedIn {
+            color: greenyellow;
+        }
+        .logout{
+            background-color: red;
+            display: none;
+        }
+        .logout:hover{
+            background-color: rgba(255, 0, 0, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="form">
+        <h1 id="mainheading">Login</h1>
+        <input type="text" name="username" id="username" placeholder="Enter UserName">
+        <input type="password" name="password" id="password" placeholder="Enter Password">
+        
+        <input type="text" name="verificationCode" id="verificationCode" placeholder="Enter 6-digit Verification Code">
+        <p id="message"></p>
+        <h2 id="loggedIn"></h2>
+        <button class="verify" id="verify" onclick="verifyOTP()">Verify</button>
+        <button class="login" id="login" onclick="sendOTP()">Login</button>
+        <button class="logout" id="logout" onclick="logout()">Logout</button>
+    </div>
+
+
+
+    <script>
+        let username = document.getElementById("username");
+        let password = document.getElementById("password");
+        let verfiybutton = document.getElementById("verify");
+        let LoginButton = document.getElementById("login");
+        let message = document.getElementById("message") ;
+        let OTP;
+
+        function sendOTP() {
+            if (username.value === "" || password.value === "") {
+                message.style.color = "Red";
+                message.innerHTML = "ERROR! Please Fill In All Fields";
+            } else {
+                OTP = Math.floor(100000 + Math.random() * 900000);
+                username.style.display = "none";
+                password.style.display = "none";
+                LoginButton.style.display = "none";
+                verfiybutton.style.display = "block";
+                document.getElementById("verificationCode").style.display = "block";
+                document.getElementById("mainheading").innerHTML = "Verify";
+                alert("Your Verification Code Is " + OTP);
+            }
+        }
+        
+        function verifyOTP() {
+            let verificationCode = parseInt(document.getElementById("verificationCode").value);
+            
+            if (verificationCode === OTP) {
+                message.style.display = "block";
+                message.style.color = "rgb(0, 172, 0)";
+                message.innerHTML = "Verified Successfully";
+                verfiybutton.style.display = "none";
+                
+                document.getElementById("mainheading").innerHTML = "Logged In"
+                document.getElementById("verificationCode").style.display = "none";
+                document.getElementById("loggedIn").innerHTML = `You Are Logged In ${username.value} `;
+                document.getElementById("logout").style.display = "block";
+
+
+
+            } else {
+                message.style.display = "block";
+                message.style.color = "red";
+                message.innerHTML = "Incorrect OTP Enter New OTP";
+                sendOTP()
+            }
+        }
+
+        function logout() {
+            location.reload()
+        }
+        
+
+    </script>
+    
+</body>
+</html>
